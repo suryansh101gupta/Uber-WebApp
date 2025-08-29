@@ -228,20 +228,22 @@ Authorization: Bearer <jwt_token>
 
 ---
 
-# Captain Registration Endpoint Documentation
+# Captain Routes Documentation
 
-## Endpoint
+---
+
+## Captain Registration
+
+### Endpoint
 
 `POST /captain/register`
 
-## Description
+### Description
 
 Registers a new captain (driver) in the Uber-WebApp system.  
-This endpoint validates the input, hashes the password, and returns a JWT token upon successful registration.
+Validates input, hashes the password, and returns a JWT token upon successful registration.
 
-## Request Body
-
-Send a JSON object with the following structure:
+### Request Body
 
 ```json
 {
@@ -260,7 +262,7 @@ Send a JSON object with the following structure:
 }
 ```
 
-### Field Requirements
+#### Field Requirements
 
 - `fullname.firstname` (string, required): Minimum 3 characters.
 - `fullname.lastname` (string, optional): Minimum 3 characters if provided.
@@ -271,7 +273,7 @@ Send a JSON object with the following structure:
 - `vehicle.capacity` (integer, required): Minimum 1.
 - `vehicle.vehicleType` (string, required): Must be one of `bike`, `car`, or `auto`.
 
-## Responses
+### Responses
 
 | Status Code | Description                                 | Response Body Example                      |
 |-------------|---------------------------------------------|--------------------------------------------|
@@ -279,29 +281,7 @@ Send a JSON object with the following structure:
 | 400         | Validation error or missing fields          | `{ "errors": [ ... ] }`                   |
 | 500         | Internal server error                       | `{ "error": "Internal server error" }`     |
 
-## Example Request
-
-```http
-POST /captain/register
-Content-Type: application/json
-
-{
-  "fullname": {
-    "firstname": "Jane",
-    "lastname": "Doe"
-  },
-  "email": "jane.captain@example.com",
-  "password": "securepassword",
-  "vehicle": {
-    "plate": "ABC123",
-    "colour": "Red",
-    "capacity": 4,
-    "vehicleType": "car"
-  }
-}
-```
-
-## Example Successful Response
+### Example Successful Response
 
 ```json
 {
@@ -320,5 +300,144 @@ Content-Type: application/json
       "vehicleType": "car"
     }
   }
+}
+```
+
+---
+
+## Captain Login
+
+### Endpoint
+
+`POST /captain/login`
+
+### Description
+
+Authenticates a captain with email and password.  
+Returns a JWT token and captain data if credentials are valid.
+
+### Request Body
+
+```json
+{
+  "email": "jane.captain@example.com",
+  "password": "securepassword"
+}
+```
+
+#### Field Requirements
+
+- `email` (string, required): Must be a valid email address.
+- `password` (string, required): Minimum 6 characters.
+
+### Responses
+
+| Status Code | Description                                 | Response Body Example                      |
+|-------------|---------------------------------------------|--------------------------------------------|
+| 200         | Login successful                            | `{ "token": "<jwt_token>", "captain": { ... } }` |
+| 400         | Validation error or missing fields          | `{ "errors": [ ... ] }`                   |
+| 401         | Invalid email or password                   | `{ "error": "Invalid email or password" }` |
+| 500         | Internal server error                       | `{ "error": "Internal server error" }`     |
+
+### Example Successful Response
+
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "captain": {
+    "_id": "65f8c2e1b6a4d9e3f0b5a7c2",
+    "fullname": {
+      "firstname": "Jane",
+      "lastname": "Doe"
+    },
+    "email": "jane.captain@example.com",
+    "vehicle": {
+      "plate": "ABC123",
+      "colour": "Red",
+      "capacity": 4,
+      "vehicleType": "car"
+    }
+  }
+}
+```
+
+---
+
+## Captain Profile
+
+### Endpoint
+
+`POST /captain/profile`
+
+### Description
+
+Returns the authenticated captain's profile information.  
+Requires a valid JWT token in the `Authorization` header or as a cookie.
+
+### Authentication
+
+- **Header:** `Authorization: Bearer <token>`
+- **Cookie:** `token=<jwt_token>`
+
+### Responses
+
+| Status Code | Description                      | Response Body Example                |
+|-------------|----------------------------------|--------------------------------------|
+| 200         | Success                          | `{ "captain": { ... } }`             |
+| 401         | Unauthorized or token missing    | `{ "error": "Access denied. Unauthorized." }` |
+| 400         | Invalid or expired token         | `{ "error": "Unauthorized" }`        |
+
+### Example Successful Response
+
+```json
+{
+  "captain": {
+    "_id": "65f8c2e1b6a4d9e3f0b5a7c2",
+    "fullname": {
+      "firstname": "Jane",
+      "lastname": "Doe"
+    },
+    "email": "jane.captain@example.com",
+    "vehicle": {
+      "plate": "ABC123",
+      "colour": "Red",
+      "capacity": 4,
+      "vehicleType": "car"
+    }
+  }
+}
+```
+
+---
+
+## Captain Logout
+
+### Endpoint
+
+`GET /captain/logout`
+
+### Description
+
+Logs out the authenticated captain by blacklisting the current JWT token and clearing the authentication cookie.  
+Requires a valid JWT token in the `Authorization` header or as a cookie.
+
+### Authentication
+
+- **Header:** `Authorization: Bearer <token>`
+- **Cookie:** `token=<jwt_token>`
+
+### Responses
+
+| Status Code | Description                      | Response Body Example                |
+|-------------|----------------------------------|--------------------------------------|
+| 200         | Logout successful                | `{ "message": "Logged out successfully" }` |
+| 401         | Unauthorized or token missing    | `{ "error": "Access denied. Unauthorized." }` |
+| 400         | Invalid or expired token         | `{ "error": "Unauthorized" }`        |
+
+### Example Successful Response
+
+```json
+{
+  "message": "Logged out successfully"
 }
 ```
