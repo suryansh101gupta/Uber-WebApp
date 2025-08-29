@@ -225,3 +225,100 @@ Authorization: Bearer <jwt_token>
   "message": "Logged out successfully"
 }
 ```
+
+---
+
+# Captain Registration Endpoint Documentation
+
+## Endpoint
+
+`POST /captain/register`
+
+## Description
+
+Registers a new captain (driver) in the Uber-WebApp system.  
+This endpoint validates the input, hashes the password, and returns a JWT token upon successful registration.
+
+## Request Body
+
+Send a JSON object with the following structure:
+
+```json
+{
+  "fullname": {
+    "firstname": "Jane",
+    "lastname": "Doe"
+  },
+  "email": "jane.captain@example.com",
+  "password": "securepassword",
+  "vehicle": {
+    "plate": "ABC123",
+    "colour": "Red",
+    "capacity": 4,
+    "vehicleType": "car"
+  }
+}
+```
+
+### Field Requirements
+
+- `fullname.firstname` (string, required): Minimum 3 characters.
+- `fullname.lastname` (string, optional): Minimum 3 characters if provided.
+- `email` (string, required): Must be a valid email address.
+- `password` (string, required): Minimum 6 characters.
+- `vehicle.plate` (string, required): Minimum 3 characters.
+- `vehicle.colour` (string, required)
+- `vehicle.capacity` (integer, required): Minimum 1.
+- `vehicle.vehicleType` (string, required): Must be one of `bike`, `car`, or `auto`.
+
+## Responses
+
+| Status Code | Description                                 | Response Body Example                      |
+|-------------|---------------------------------------------|--------------------------------------------|
+| 201         | Captain registered successfully             | `{ "token": "<jwt_token>", "captain": { ... } }` |
+| 400         | Validation error or missing fields          | `{ "errors": [ ... ] }`                   |
+| 500         | Internal server error                       | `{ "error": "Internal server error" }`     |
+
+## Example Request
+
+```http
+POST /captain/register
+Content-Type: application/json
+
+{
+  "fullname": {
+    "firstname": "Jane",
+    "lastname": "Doe"
+  },
+  "email": "jane.captain@example.com",
+  "password": "securepassword",
+  "vehicle": {
+    "plate": "ABC123",
+    "colour": "Red",
+    "capacity": 4,
+    "vehicleType": "car"
+  }
+}
+```
+
+## Example Successful Response
+
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "captain": {
+    "_id": "65f8c2e1b6a4d9e3f0b5a7c2",
+    "fullname": {
+      "firstname": "Jane",
+      "lastname": "Doe"
+    },
+    "email": "jane.captain@example.com",
+    "vehicle": {
+      "plate": "ABC123",
+      "colour": "Red",
+      "capacity": 4,
+      "vehicleType": "car"
+    }
+  }
+}
+```
