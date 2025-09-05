@@ -45,12 +45,14 @@ module.exports.loginCaptain = async (req, res) => {
 
     const { email, password } = req.body;
 
-    const captain = await captainModel.findOne({ email }).select('+password'); //+password is very important because by default password is not selected because of select:false in schema
+    const captain = await captainModel.findOne({ email }).select('+password');
+    console.log("Captain found:", captain); //+password is very important because by default password is not selected because of select:false in schema
     if (!captain) {
         return res.status(401).json({ error: 'Invalid email or password' });
     }
     
     const isMatch = await captain.comparePassword(password);
+    console.log("Password match:", isMatch);
 
     if(!isMatch){
         return res.status(401).json({ error: 'Invalid email or password' });
