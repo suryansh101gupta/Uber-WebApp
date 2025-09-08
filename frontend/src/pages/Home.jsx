@@ -6,6 +6,9 @@ import { useGSAP } from './useGSAP'
 import 'remixicon/fonts/remixicon.css'
 import LocationSearchPanel from '../components/LocationSearchPanel'
 import VechiclePanel from '../components/VechiclePanel'
+import ConfirmedRide from '../components/ConfirmedRide'
+import LookingForDriver from '../components/LookingForDriver'
+import WaitingForDriver from '../components/WaitingForDriver'
 
 const Home = () => {
   const [pickup, setPickup] = useState('');
@@ -17,6 +20,15 @@ const Home = () => {
 
   const [vehiclePanelOpen, setVehiclePanelOpen] = useState(false);
   const vehiclePanelRef = useRef(null);
+
+  const [confirmedRidePanel, setConfirmedRidePanel] = useState(false);
+  const confirmedRidePanelRef = useRef(null);
+
+  const [vehicleFound, setVehicleFound] = useState(false); 
+  const vehicleFoundRef = useRef(null);
+
+  const [waitingForDriver, setWaitingForDriver] = useState(false);
+  const waitingForDriverRef = useRef(null);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -37,17 +49,49 @@ const Home = () => {
     })
   }, [vehiclePanelOpen] )
 
+  useGSAP(function() {
+    gsap.to(confirmedRidePanelRef.current, {
+      transform: confirmedRidePanel ? 'translateY(0)' : 'translateY(100%)',
+    })
+  }, [confirmedRidePanel] )
+
+  useGSAP(function() {
+    gsap.to(vehiclePanelRef.current, {
+      transform: vehiclePanelOpen ? 'translateY(0)' : 'translateY(100%)',
+    })
+  }, [vehiclePanelOpen] )
+
+  useGSAP(function() {
+    gsap.to(vehicleFoundRef.current, {
+      transform: vehicleFound ? 'translateY(0)' : 'translateY(100%)',
+    })
+  }, [vehicleFound] )
+
+  useGSAP(function() {
+    gsap.to(vehiclePanelRef.current, {
+      transform: vehiclePanelOpen ? 'translateY(0)' : 'translateY(100%)',
+    })
+  }, [vehiclePanelOpen] )
+
+  useGSAP(function() {
+    gsap.to(waitingForDriverRef.current, {
+      transform: waitingForDriver ? 'translateY(0)' : 'translateY(100%)',
+    })
+  }, [waitingForDriver] )
+
   return (
     <div className='bg-cover bg-[url(src/assets/map.jpg)] h-screen relative pt-8 w-full flex justify-between flex-col'>
-    <div className='p-7 flex flex-col justify-between h-screen'>
-      <Link to='/home'>
-          <img className='w-30 mb-5' src="src/assets/SAFAR.png" alt="logo"/>
-      </Link>
+    {/* <div className='p-7 flex flex-col justify-between h-screen'> */}
+      <div>
+        <Link to='/home'>
+            <img className='w-30 top-7 left-7 absolute' src="src/assets/SAFAR.png" alt="logo"/>
+        </Link>
+      </div>
       {/* <div className='h-screen w-screen'> */}
         {/* temp img */}
         {/* <img className='w-full h-full object cover'src="src/assets/map.jpg"/> */}
       {/* </div> */}
-    </div>
+    {/* </div> */}
       <div className='flex flex-col justify-end h-screen position absolute top-0 w-full'>
         <div className='h-[25%] bg-white p-5 relative'>
           <h5 ref={panelCloseRef} onClick={()=>{
@@ -90,8 +134,18 @@ const Home = () => {
           <LocationSearchPanel setVehiclePanelOpen={setVehiclePanelOpen} setPanelOpen={setPanelOpen} />
         </div>
       </div>
+
       <div ref={vehiclePanelRef} className='fixed z-10 bottom-0 translate-y-full bg-white w-full px-3 py-8'>
-        <VechiclePanel setVehiclePanelOpen={setVehiclePanelOpen}/>
+        <VechiclePanel setConfirmedRidePanel={setConfirmedRidePanel} setVehiclePanelOpen={setVehiclePanelOpen}/>
+      </div>
+      <div ref={confirmedRidePanelRef} className='fixed z-10 bottom-0 translate-y-full bg-white w-full px-3 py-8'>
+        <ConfirmedRide setConfirmedRidePanel={setConfirmedRidePanel} setVehiclePanelOpen={setVehiclePanelOpen} setVehicleFound={setVehicleFound}/>
+      </div>
+      <div ref={vehicleFoundRef} className='fixed z-10 bottom-0 translate-y-full bg-white w-full px-3 py-8'>
+        <LookingForDriver setConfirmedRidePanel={setConfirmedRidePanel} setVehicleFound={setVehicleFound}/>
+      </div>
+      <div ref={waitingForDriverRef} className='fixed z-10 bottom-0 translate-y-full bg-white w-full px-3 py-8'>
+        <WaitingForDriver setWaitingForDriver={setWaitingForDriver} />
       </div>
     </div>
   )
