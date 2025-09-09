@@ -1,4 +1,5 @@
 const rideModel = require('../models/ride_model');
+const userModel = require("../models/user_models");
 const mapsService = require('./maps_service');
 const crypto = require('crypto');
 
@@ -38,6 +39,8 @@ async function getFare(pickup, destination){
 
     return fare;
 }
+
+module.exports.getFare = getFare;
 
 function getOtp(num) {
     const otp = crypto.randomInt(Math.pow(10, num-1), Math.pow(10, num)).toString();

@@ -15,20 +15,20 @@ const ConfirmedRide = (props) => {
                     <i className="ml-3 text-lg ri-map-pin-range-line"></i>
                     <div>
                         <h3 className='text-xl font-medium'>Sample Location 1234</h3>
-                        <p className='text-gray-700 -mt-1'>Sample Paragraph</p>
+                        <p className='text-gray-700 -mt-1'>{props.pickup}</p>
                     </div>
                 </div>
                 <div className='flex items-center gap-3 mb-4 border-b-2 border-b-gray-300 border-t-2 border-t-gray-300 rounded-xl'>
                     <i className="ml-3 text-lg ri-map-pin-4-fill"></i>
                     <div>
                         <h3 className='text-xl font-medium'>Destination Location 1234</h3>
-                        <p className='text-gray-700 -mt-1'>Sample Paragraph</p>
+                        <p className='text-gray-700 -mt-1'>{props.destination}</p>
                     </div>
                 </div>
                 <div className='flex items-center gap-3 mb-4 border-b-2 border-b-gray-300 border-t-2 border-t-gray-300 rounded-xl'>
                     <i className="ml-3 text-lg ri-money-rupee-circle-line"></i>
                     <div>
-                        <h3 className='text-xl font-medium'>RS 200</h3>
+                        <h3 className='text-xl font-medium'>Rs {props.fare[props.vehicleType]}</h3>
                         <p className='text-gray-700 -mt-1'>Cash</p>
                     </div>
                 </div>
@@ -37,6 +37,7 @@ const ConfirmedRide = (props) => {
                 props.setVehicleFound(true)
                 props.setConfirmedRidePanel(false)
                 props.setVehiclePanelOpen(false)
+                props.createRide()
             }} className='bg-[#111] font-medium text-[#FFBD59] mb-3 rounded-xl px-4 py-2 w-full text-lg'>Confirm</button>
         </div>
     </div>

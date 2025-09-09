@@ -18,10 +18,21 @@ const captainSchema = new mongoose.Schema({
         capacity: { type: Number, required: true, min: [1, 'Capacity must be atleast 1'], },
         vehicleType: { type: String, enum: ['bike', 'car', 'auto'], required: true },
     },
-    location: {
-        lat:{ type: Number, },
-        lng:{ type: Number, },
-    }
+        location: {
+            ltd:{ type: Number, },
+            lng:{ type: Number, },
+        }
+    // location: {
+    //     type: {
+    //         type: String,
+    //         enum: ['Point'],
+    //         required: true
+    //     },
+    //     coordinates: {
+    //         type: [Number],  // [longitude, latitude]
+    //         required: true
+    //     }
+    // }
 });
 
 captainSchema.methods.generateAuthToken = function() {
