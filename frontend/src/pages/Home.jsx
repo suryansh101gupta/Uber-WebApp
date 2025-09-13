@@ -12,6 +12,8 @@ import WaitingForDriver from '../components/WaitingForDriver'
 import axios from "axios";
 import { SocketContext } from '../context/SocketContext'
 import { UserDataContext } from '../context/UserContext'
+import { useNavigate } from 'react-router-dom'
+import LiveTracking from '../components/LiveTracking'
 
 const Home = () => {
   const [pickup, setPickup] = useState('');
@@ -38,9 +40,12 @@ const Home = () => {
   const [ activeField, setActiveField ] = useState(null)
   const [ fare, setFare ] = useState({})
   const [ vehicleType, setVehicleType ] = useState(null)
+  const [ ride, setRide ] = useState(null)
 
   const { socket } = useContext(SocketContext)
   const { user } = useContext(UserDataContext)
+
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (!user) return;
@@ -155,12 +160,10 @@ const Home = () => {
 
 
   return (
-    <div className='bg-cover bg-[url(src/assets/map.jpg)] h-screen relative pt-8 w-full flex justify-between flex-col'>
-    {/* <div className='p-7 flex flex-col justify-between h-screen'> */}
-      <div>
-        <Link to='/home'>
-            <img className='w-30 top-7 left-7 absolute' src="src/assets/SAFAR.png" alt="logo"/>
-        </Link>
+    <div className='h-screen relative overflow-hidden'>
+      <img className='w-16 absolute left-5 top-5' src="src/assets/safar.png" alt="logo" />
+      <div className='h-screen w-screen'>
+          <LiveTracking />
       </div>
       {/* <div className='h-screen w-screen'> */}
         {/* temp img */}
@@ -247,10 +250,10 @@ const Home = () => {
       </div>
       <div ref={waitingForDriverRef} className='fixed z-10 bottom-0 bg-white w-full px-3 py-8'>
         <WaitingForDriver
-        // ride={ride}
-        setVehicleFound={setVehicleFound}
-        setWaitingForDriver={setWaitingForDriver}
-        waitingForDriver={waitingForDriver}/>
+          ride={ride}
+          setVehicleFound={setVehicleFound}
+          setWaitingForDriver={setWaitingForDriver}
+          waitingForDriver={waitingForDriver}/>
       </div>
     </div>
   )

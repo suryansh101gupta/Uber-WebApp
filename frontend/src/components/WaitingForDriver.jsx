@@ -11,9 +11,10 @@ const WaitingForDriver = (props) => {
         <div className='flex items-center justify-between'>
           <img className='h-30 -mb-3 -mt-10 ' src="src/assets/cab.png" alt="car-logo" />
           <div className='mb-8 text-right'>
-            <h2 className='font-medium  text-lg'>Captain Name</h2>
-            <h4 className='font-semibold text-xl -mt-1 -mb-1'>MH04 VG 1234</h4>
+            <h2 className='font-medium  text-lg'>{props.ride?.captain.fullname.firstname}</h2>
+            <h4 className='font-semibold text-xl -mt-1 -mb-1'>{props.ride?.captain.vehicle.plate}</h4>
             <p className='text-sm text-gray-600'>Cab Ride</p>
+            <p className='text-lg'>OTP: {props.ride?.otp}</p>
           </div>
         </div>
 
@@ -22,21 +23,21 @@ const WaitingForDriver = (props) => {
                 <div className='flex items-center gap-3 mb-4 border-b-2 border-b-gray-300 border-t-2 border-t-gray-300 rounded-xl'>
                     <i className="ml-3 text-lg ri-map-pin-range-line"></i>
                     <div>
-                        <h3 className='text-xl font-medium'>Sample Location 1234</h3>
-                        <p className='text-gray-700 -mt-1'>Sample Paragraph</p>
+                        <h3 className='text-xl font-medium'>Pick-up Location</h3>
+                        <p className='text-gray-700 -mt-1'>{props.ride?.pickup}</p>
                     </div>
                 </div>
                 <div className='flex items-center gap-3 mb-4 border-b-2 border-b-gray-300 border-t-2 border-t-gray-300 rounded-xl'>
                     <i className="ml-3 text-lg ri-map-pin-4-fill"></i>
                     <div>
-                        <h3 className='text-xl font-medium'>Destination Location 1234</h3>
-                        <p className='text-gray-700 -mt-1'>Sample Paragraph</p>
+                        <h3 className='text-xl font-medium'>Destination Location</h3>
+                        <p className='text-gray-700 -mt-1'>{props.ride?.destination}</p>
                     </div>
                 </div>
                 <div className='flex items-center gap-3 mb-4 border-b-2 border-b-gray-300 border-t-2 border-t-gray-300 rounded-xl'>
                     <i className="ml-3 text-lg ri-money-rupee-circle-line"></i>
                     <div>
-                        <h3 className='text-xl font-medium'>RS 200</h3>
+                        <h3 className='text-xl font-medium'>RS {props.ride?.fare}</h3>
                         <p className='text-gray-700 -mt-1'>Cash</p>
                     </div>
                 </div>

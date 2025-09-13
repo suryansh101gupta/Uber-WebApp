@@ -8,6 +8,8 @@ import { useGSAP } from './useGSAP'
 import { useEffect, useContext } from 'react';
 import { SocketContext } from '../context/SocketContext';
 import { CaptainDataContext } from '../context/CaptainContext';
+import axios from 'axios';
+import LiveTracking from '../components/LiveTracking';
 
 const CaptainHome = () => {
 
@@ -84,7 +86,7 @@ const CaptainHome = () => {
         </Link>
       </div>
       <div className='h-3/5'>
-        <img className='h-full w-full object-cover' src="src/assets/map.jpg" alt="map" />
+        <LiveTracking />
       </div>
       <div className='h-2/5 p-5'>
         <CaptainDetails />
@@ -98,10 +100,17 @@ const CaptainHome = () => {
             className='bg-[#111] font-medium text-[#FFBD59] mb-3 rounded-xl px-4 py-2 w-full text-lg'>Make Pyment <i className="ml-3 text-lg ri-money-rupee-circle-line"></i></button> */}
       </div> 
       <div ref={ridePopupPanelRef} className='fixed z-10 bottom-0 translate-y-full bg-white w-full px-3 py-8'>
-        <RidePopUp setRidePopupPanel={setRidePopupPanel} setConfirmRidePopupPanel={setConfirmRidePopupPanel} />
+        <RidePopUp 
+          ride={ride}
+          setRidePopupPanel={setRidePopupPanel} 
+          setConfirmRidePopupPanel={setConfirmRidePopupPanel}
+          confirmRide={confirmRide} />
       </div>
       <div ref={confirmRidePopupPanelRef} className='fixed z-10 bottom-0 h-[75%] translate-y-full bg-white w-full px-3 py-8'>
-        <ConfirmRidePopUp setConfirmRidePopupPanel={setConfirmRidePopupPanel} setRidePopupPanel={setRidePopupPanel} />
+        <ConfirmRidePopUp 
+          ride={ride}
+          setConfirmRidePopupPanel={setConfirmRidePopupPanel} 
+          setRidePopupPanel={setRidePopupPanel} />
       </div>
     </div>
   )

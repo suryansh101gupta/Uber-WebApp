@@ -12,7 +12,7 @@ const RidePopUp = (props) => {
             <div className='flex items-center justify-between bg-stone-200 rounded-xl p-3 mt-3 mb-3 w-full'>
               <div className='flex items-center'>
                   {/* <img src="" alt="" /> */}
-                  <h2 className='text-2xl font-medium'>User Name</h2>
+                  <h2 className='text-2xl font-medium'>{props.ride?.user.fullName.firstName + " " + props.ride?.user.fullName.lastName}</h2>
               </div>
               <h5 className='text-xl font-medium'>2.5 KM away</h5>
             </div>
@@ -20,21 +20,21 @@ const RidePopUp = (props) => {
                 <div className='flex items-center gap-3 mb-4 border-b-2 border-b-gray-300 border-t-2 border-t-gray-300 rounded-xl'>
                     <i className="ml-3 text-lg ri-map-pin-range-line"></i>
                     <div>
-                        <h3 className='text-xl font-medium'>Sample Location 1234</h3>
-                        <p className='text-gray-700 -mt-1'>Sample Paragraph</p>
+                        <h3 className='text-xl font-medium'>Pick-up Location</h3>
+                        <p className='text-gray-700 -mt-1'>{props.ride?.pickup}</p>
                     </div>
                 </div>
                 <div className='flex items-center gap-3 mb-4 border-b-2 border-b-gray-300 border-t-2 border-t-gray-300 rounded-xl'>
                     <i className="ml-3 text-lg ri-map-pin-4-fill"></i>
                     <div>
-                        <h3 className='text-xl font-medium'>Destination Location 1234</h3>
-                        <p className='text-gray-700 -mt-1'>Sample Paragraph</p>
+                        <h3 className='text-xl font-medium'>Destination Location</h3>
+                        <p className='text-gray-700 -mt-1'>{props.ride?.destination}</p>
                     </div>
                 </div>
                 <div className='flex items-center gap-3 mb-4 border-b-2 border-b-gray-300 border-t-2 border-t-gray-300 rounded-xl'>
                     <i className="ml-3 text-lg ri-money-rupee-circle-line"></i>
                     <div>
-                        <h3 className='text-xl font-medium'>RS 200</h3>
+                        <h3 className='text-xl font-medium'>RS {props.ride?.fare}</h3>
                         <p className='text-gray-700 -mt-1'>Cash</p>
                     </div>
                 </div>
@@ -43,6 +43,7 @@ const RidePopUp = (props) => {
                 <button onClick={()=>{
                     props.setConfirmRidePopupPanel(true)
                     props.setRidePopupPanel(false)
+                    props.confirmRide()
                 }} className='bg-[#111] font-medium text-[#FFBD59] rounded-xl py-2 w-full text-lg'>Accept</button>
                 <button onClick={()=>{
                     props.setRidePopupPanel(false)
